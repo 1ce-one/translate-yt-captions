@@ -8,6 +8,10 @@ from moviepy.decorators import convert_path_to_string
 from moviepy.tools import convert_to_seconds
 from moviepy.video.VideoClip import TextClip, VideoClip
 
+from moviepy.video.tools.subtitles import SubtitlesClip
+from moviepy.video.io.VideoFileClip import VideoFileClip
+
+from moviepy.video.compositing.CompositeVideoClip import CompositeVideoClip
 
 class SubtitlesClip(VideoClip):
     """A Clip that serves as "subtitle track" in videos.
@@ -105,7 +109,7 @@ class SubtitlesClip(VideoClip):
 
         self.make_frame = make_frame
         hasmask = bool(self.make_textclip("T").mask)
-        self.mask = VideoClip(make_mask_frame, is_mask=True) if hasmask else None
+        self.mask = VideoClip(make_mask_frame, ismask=True) if hasmask else None
 
     def in_subclip(self, start_time=None, end_time=None):
         """Returns a sequence of [(t1,t2), text] covering all the given subclip
@@ -182,10 +186,9 @@ def file_to_subtitles(filename, encoding=None):
                 current_text += line
     return times_texts
 
-gen = lambda text: TextClip(text, font='Arial', color='white')
+gen = lambda text: TextClip(text, font='Georgia-Regular', color='white')
 
-sub = SubtitlesClip('js-netflix-doco.srt', gen, encoding='utf-8')
+sub = SubtitlesClip('js-netflix-doco.srt', gen)
 video = VideoFileClip('netflix-doco.mp4')
-final = CompositeVideoClip([clip, subtitles])
+final = CompositeVideoClip([video, sub])
 final.write_videofile('ccvideo.mp4', fps=video.fps)
-
