@@ -184,10 +184,9 @@ def file_to_subtitles(filename, encoding=None):
     return times_texts
 
 gen = lambda text: TextClip(text, font='Georgia-Regular', fontsize=32, color='white')
-print('gen: ', gen)
 sub = SubtitlesClip('files-to-test/js-netflix-doco.srt', gen)
 video = VideoFileClip('files-to-test/netflix-doco.mp4')
-final = CompositeVideoClip([video, sub])
+final = CompositeVideoClip([video, sub.set_pos(('center','bottom'))])
 final.write_videofile('ccvideo.mp4', fps=video.fps)
 
 
