@@ -99,3 +99,27 @@ class EasyGoogleTranslate:
         text = self.translate(f.read(), target_language, source_language, timeout)
         f.close()
         return text
+
+def get_text_from_srt():
+    file = open( "files-to-test/js-netflix-doco.srt", "r")
+    lines = file.readlines()
+    file.close()
+    to_trans_text = ''
+    to_split_text = ''
+    for line in lines:
+        if re.search('^[0-9]+$', line) is None and re.search('^[0-9]{2}:[0-9]{2}:[0-9]{2}', line) is None and re.search('^$', line) is None:
+            to_trans_text += '' + line.rstrip('\n')
+            to_split_text += "|" + line.rstrip('\n') 
+            # (?) Figure-out a symbol that the translator ignores, but that works to split.
+            # (?) Make a pattern to put the translated text properly on new srt.
+        to_trans_text = to_trans_text.lstrip()
+        to_split_text = to_split_text.lstrip()
+    return to_trans_text, to_split_text
+
+to_trans, to_split = get_text_from_srt()
+translator = EasyGoogleTranslate(source_language='en', target_language='pt')
+result1 = translator.translate(text=to_trans)
+result2 = translator.translate(text=to_split)
+print(result1)
+print('\n')
+print(result2)
