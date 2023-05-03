@@ -29,7 +29,7 @@ def translate_srt(input_file, output_file, source_language, target_language):
             line_index += 1
 
 output_file = 'output.srt'
-input_file = 'files-to-test/js-netflix-doco.srt'
+input_file = 'files-to-test/tate-first-interview.srt'
 source_language = 'en'
 target_language = 'pt'
 translate_srt(input_file, output_file, source_language, target_language)
